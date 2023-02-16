@@ -14,26 +14,24 @@
         srcset=""
       />
     </div>
-    <el-sub-menu index="/home">
+    <el-menu-item index="/">
+      <template #title>
+        <el-icon><DataAnalysis /></el-icon>
+        <span>大屏看图</span>
+      </template>
+    </el-menu-item>
+    <el-sub-menu index="/system">
       <template #title>
         <el-icon><Promotion /></el-icon>
         <span>系统管理</span>
       </template>
-      <el-menu-item index="/home/user">用户管理</el-menu-item>
+      <el-menu-item index="/system/user">用户管理</el-menu-item>
       <el-menu-item index="1-2">菜单管理</el-menu-item>
-    </el-sub-menu>
-    <el-sub-menu index="2">
-      <template #title>
-        <el-icon><Setting /></el-icon>
-        <span>审批管理</span>
-      </template>
-      <el-menu-item index="2-1">审批管理-1</el-menu-item>
-      <el-menu-item index="2-2">审批管理-2</el-menu-item>
     </el-sub-menu>
   </el-menu>
 </template>
 <script setup lang='ts'>
-import { Promotion, Setting } from "@element-plus/icons-vue";
+import { Promotion, DataAnalysis } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 </script>

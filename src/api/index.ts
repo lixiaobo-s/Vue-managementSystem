@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-
 export default {
     login(params: object) {
         return request.post('/users/login', params);
@@ -11,14 +10,24 @@ export default {
         return request.CQMapInfo("https://www.fastmock.site/mock/22f34e05e31753b322f9c3acfed961ee/lixiaobo/cqmap");
     },
     //获取用户列表信息列表
-    getUserInfo(currentPage = 1, pageSize = 5, userName = undefined, userId = undefined) {
-        return request.get(`/users/getuserInfo`, {
+    getUserInfo(currentPage = 1, pageSize = 5, userName: string, userId: string) {
+        type params = {
+            currentPage: number,
+            pageSize: number,
+            userName?: string,
+            userId?: string,
+        }
+        let obj: params = {
             currentPage,
             pageSize,
-            userName,
-            userId
         }
-        );
+        if (userName != '') {
+            obj.userName = userName;
+        }
+        if (userId != '') {
+            obj.userId = userId;
+        }
+        return request.get(`/users/getuserInfo`, obj);
     },
     //获取标题消息等
     getUserRole() {

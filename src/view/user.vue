@@ -42,7 +42,7 @@
 </template>
 <script setup lang='ts'>
 import { reactive, ref, onMounted, watch } from "vue";
-import { FormInstance } from "element-plus";
+import { FormInstance, ElNotification } from "element-plus";
 import Api from "@/api/index";
 import Table from "@/components/Table.vue";
 import Pagination from "@/components/Pagination.vue";
@@ -79,11 +79,11 @@ onMounted(() => {
 });
 //监听页数变化和每页展示的数据变化
 watch([currentPage, pageSize], () => {
-  router.push(`/home/user/${currentPage.value}`);
+  router.push(`/system/user/${currentPage.value}`);
   getUserInfo();
 });
 //获取用户信息
-async function getUserInfo(userName = undefined, userID = undefined) {
+async function getUserInfo(userName = "", userID = "") {
   const page = currentPage.value;
   const size = pageSize.value;
   let res = await (<any>Api.getUserInfo(page, size, userName, userID));
@@ -106,6 +106,14 @@ const formInline = reactive({
 });
 
 const onSubmit = async () => {
+  if (formInline.userName == "" && formInline.userID == "") {
+    ElNotification({
+      title: "提示",
+      message: "输入内容后再试",
+      type: "warning",
+    });
+    return;
+  }
   getUserInfo(formInline.userName, formInline.userID);
 };
 const onReset = () => {
