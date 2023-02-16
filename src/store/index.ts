@@ -1,9 +1,20 @@
 import { defineStore } from 'pinia'
+import Api from '@/api'
 //定义数据类型
 type info = {
     username: string,
     _id: string,
     deptId: [],
+}
+//定义返回菜单数据类型
+interface menu {
+    menuId: string,
+    name: string,
+    url: string,
+    children: [{
+        path: string,
+        name: string,
+    }]
 }
 export default defineStore('userInfo', {
     state: () => {
@@ -12,7 +23,8 @@ export default defineStore('userInfo', {
             roles: [], //用户类别
             states: [], //用户状态
             userListinfo: {},
-            sex: []//标题等信息
+            sex: [],//标题等信息
+            menus: <menu[]>[]  //存储菜单信息
         }
     },
     persist: { // 持久化存储的方式
@@ -35,11 +47,14 @@ export default defineStore('userInfo', {
 
             this.userInfo = data;
 
+        },
+        //获取菜单信息
+        async getMenus() {
+            this.menus = await <menu[]>(await Api.getMenu()).data;
         }
     },
     getters: {
-        // filterInfo() {
 
-        // }
+
     }
 })

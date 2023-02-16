@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import MHeader from "@/components/Header.vue";
 import Menu from "@/components/Menu.vue";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 const show = ref(true);
 const sildWidth = ref("200px");
-
 function isShowAll() {
   //更改/
   show.value = !show.value;

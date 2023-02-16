@@ -3,6 +3,10 @@ export default {
     login(params: object) {
         return request.post('/users/login', params);
     },
+    //请求菜单信息
+    getMenu() {
+        return request.get('/menus/getmenus');
+    },
     getMapInfo() {
         return request.getMap('https://geo.datav.aliyun.com/areas_v3/bound/500000_full.json')
     },
