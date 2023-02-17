@@ -3,6 +3,10 @@ export default {
     login(params: object) {
         return request.post('/users/login', params);
     },
+    //注册
+    register(data: any) {
+        return request.put('/users/addUser', data);
+    },
     //请求菜单信息
     getMenu() {
         return request.get('/menus/getmenus');

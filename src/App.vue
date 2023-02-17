@@ -5,5 +5,10 @@
   <router-view></router-view>
 </template>
 
-<style scoped lang="scss">
+<style  lang="scss">
+a {
+  text-decoration: none;
+  color: gray;
+  font-weight: 700;
+}
 </style>

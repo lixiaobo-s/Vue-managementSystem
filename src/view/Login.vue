@@ -30,19 +30,21 @@
         >
       </el-form-item>
     </el-form>
+    <router-link to="/register" class="toRegister">没有账号？</router-link>
   </div>
 </template>
 <script setup lang='ts'>
 import { UserFilled, Lock } from "@element-plus/icons-vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import api from "@/api/index";
 import type { FormInstance } from "element-plus";
-import { reactive, ref } from "vue-demi";
+import { onMounted, reactive, ref } from "vue-demi";
 import userInfo from "@/store/index";
 import { setToken } from "@/utils/setToken";
 const userStore = userInfo();
 const ruleFormRef = ref<FormInstance>();
 const router = useRouter();
+const route = useRoute();
 //验证规则
 const rules = reactive({
   username: [{ validator: validateuserName, trigger: "blur" }],
@@ -72,6 +74,11 @@ function validatecheckPass(rule: any, value: any, callback: any) {
 const form = reactive({
   username: "",
   password: "",
+});
+onMounted(() => {
+  if (route.params.userName !== "") {
+    form.username = route.params.userName as string;
+  }
 });
 //登录
 function submitForm(formEl: FormInstance | undefined) {
@@ -110,6 +117,12 @@ function submitForm(formEl: FormInstance | undefined) {
   }
   .form {
     margin-top: 30px;
+  }
+  .toRegister {
+    display: inline-block;
+    width: 100%;
+    font-size: 12px;
+    text-align: end;
   }
 }
 </style>

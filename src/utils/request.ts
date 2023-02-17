@@ -5,6 +5,7 @@ import axios from 'axios'
 import config from '@/config'
 import { ElMessage } from 'element-plus'
 import { getToken, removeToken } from '@/utils/setToken'
+import throttle from 'lodash/throttle'
 import router from '../router'
 //创建axios
 const service = axios.create({
@@ -48,17 +49,7 @@ service.interceptors.response.use((res) => {
      */
 
     if (code == 5001) {
-        //错误提示
-        ElMessage({
-            showClose: true,
-            message: data.msg,
-            type: 'warning',
-        })
-        //延迟跳转
-        setTimeout(() => {
-            removeToken();
-            router.push('/')
-        }, 1000);
+        fn(data.msg);
         return Promise.reject('身份过期,重新登录！');
     }
     if (code == 666) {
@@ -88,7 +79,18 @@ service.interceptors.response.use((res) => {
     })
     return Promise.reject(error)
 })
-
+let fn = throttle((msg) => {
+    //错误提示
+    ElMessage({
+        showClose: true,
+        message: msg,
+        type: 'warning',
+    })
+    removeToken();
+    router.push('/login')
+}, 1000, {
+    "trailing": false,
+})
 
 
 export default {

@@ -40,9 +40,14 @@ const routers: RouteRecordRaw[] = [
 
 
     {
-        path: '/login',
+        path: '/login/:userName?',
         name: 'login',
         component: () => import("@/view/Login.vue")
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import("@/view/register.vue")
     },
     {
         path: "/:pathMatch(.*)", //处理未匹配到的路由页面
