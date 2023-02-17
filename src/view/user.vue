@@ -20,6 +20,13 @@
   </el-card>
   <!-- 列表 -->
   <el-card class="Item">
+    <el-button
+      type="danger"
+      :icon="Delete"
+      class="deletebtn"
+      @click="deleteMany"
+      >批量删除</el-button
+    >
     <Table
       :tableData="tableData"
       :update="update"
@@ -43,6 +50,7 @@
 <script setup lang='ts'>
 import { reactive, ref, onMounted, watch } from "vue";
 import { FormInstance, ElNotification } from "element-plus";
+import { Delete } from "@element-plus/icons-vue";
 import Api from "@/api/index";
 import Table from "@/components/Table.vue";
 import Pagination from "@/components/Pagination.vue";
@@ -121,11 +129,31 @@ const onReset = () => {
   getUserInfo();
 };
 
-const multipleSelection = ref<User[]>([]);
+const multipleSelection = ref<string[]>();
 
 const handleSelectionChange = (val: User[]) => {
-  multipleSelection.value = val;
+  let userIds = val.map((item) => {
+    return item.userId;
+  });
+
+  multipleSelection.value = userIds;
 };
+//批量删除
+async function deleteMany() {
+  const datas = multipleSelection.value;
+  console.log(datas?.length);
+
+  if (datas && datas.length > 0) {
+    await Api.deleteUserMany(datas);
+    getUserInfo();
+    return;
+  }
+  ElNotification({
+    title: "删除失败！",
+    message: "选择后再试",
+    type: "warning",
+  });
+}
 //分页器事件
 function changepageinfo(index: { t: string; number: number }) {
   const { t, number } = index;
@@ -159,6 +187,9 @@ async function update(info: any, t: string) {
 </script>
 <style lang='scss' scoped>
 .search-box {
+  margin-bottom: 20px;
+}
+.deletebtn {
   margin-bottom: 20px;
 }
 .Item {

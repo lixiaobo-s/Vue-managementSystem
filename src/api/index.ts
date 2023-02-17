@@ -47,5 +47,9 @@ export default {
     },
     deleteUser(userid: string) {
         return request.delete('/users/deleteUser', { userid });
+    },
+    //批量删除
+    deleteUserMany(userIds: any) {
+        return request.put('/users/deleteUserMany', userIds);
     }
 }
