@@ -40,6 +40,7 @@
       @changepageinfo="changepageinfo"
     />
   </el-card>
+
   <Dialog
     :show="showDialog"
     @close="closeDialog"
@@ -49,6 +50,7 @@
 </template>
 <script setup lang='ts'>
 import { reactive, ref, onMounted, watch } from "vue";
+import { getCurrentInstance, ComponentInternalInstance } from "vue";
 import { FormInstance, ElNotification } from "element-plus";
 import { Delete } from "@element-plus/icons-vue";
 import Api from "@/api/index";
@@ -72,6 +74,7 @@ interface User {
 }
 //数据
 const tableData = ref<User[]>();
+
 //分页器
 const currentPage = ref(1); //当前页数
 const pageSize = ref(5); //每页展示的条数
@@ -84,6 +87,9 @@ onMounted(() => {
   }
   getUserInfo();
   getRole();
+  const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+
+  proxy!.$forceUpdate();
 });
 //监听页数变化和每页展示的数据变化
 watch([currentPage, pageSize], () => {

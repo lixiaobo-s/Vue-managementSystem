@@ -1,5 +1,6 @@
 <template>
   <el-table
+    v-loading="loading"
     ref="multipleTableRef"
     :data="taDate"
     style="width: 100%"
@@ -37,30 +38,48 @@
 <script setup lang='ts'>
 import { InfoFilled } from "@element-plus/icons-vue";
 import userInfo from "@/store/index";
+import { storeToRefs } from "pinia"; //仓库数据双向绑定；
+// import { getCurrentInstance, ComponentInternalInstance } from "vue";
 import { ref, watch } from "vue";
 
 const props = defineProps(["tableData", "update", "handleSelectionChange"]);
 const userStore = userInfo();
+let store = storeToRefs(userStore);
 const taDate = ref([]);
+const loading = ref(true);
 watch(
-  () => props.tableData,
+  () => store.roles.value,
   (newval, oldval) => {
-    filtersInfo(newval);
+    filtersInfo();
   }
 );
+watch(
+  () => props.tableData,
+  () => {
+    filtersInfo();
+  }
+);
+//强制刷新
+// onMounted(() => {
+//   const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
+//   proxy!.$forceUpdate();
+// });
 //过滤字段，将0 1 等数据转换成文字
-
-function filtersInfo(info: any) {
-  const arr = info.map((item: any) => {
+function filtersInfo() {
+  loading.value = true;
+  const arr = props.tableData.map((item: any) => {
     return {
       ...item,
-      role: userStore.roles[item.role],
-      sex: userStore.sex[item.sex],
-      state: userStore.states[item.state],
+      role: store.roles.value[item.role],
+      sex: store.sex.value[item.sex],
+      state: store.states.value[item.state],
     };
   });
   taDate.value = arr;
+  setTimeout(() => {
+    loading.value = false;
+  }, 500);
 }
 </script>
 <style lang='scss' scoped>
