@@ -16,29 +16,13 @@
     </div>
     <template v-for="item in store.menus" :key="item.menuId">
       <!-- 多级菜单的 -->
-      <el-sub-menu v-if="item.children.length > 0" :index="item.url">
-        <template #title>
-          <el-icon><Promotion /></el-icon>
-          <span> {{ item.name }}</span>
-        </template>
-        <el-menu-item
-          v-for="(citem, i) in item.children"
-          :key="i"
-          :index="citem.path"
-          >{{ citem.name }}</el-menu-item
-        >
-      </el-sub-menu>
-      <el-menu-item v-else :index="item.url">
-        <template #title>
-          <el-icon><DataAnalysis /></el-icon>
-          <span> {{ item.name }}</span>
-        </template>
-      </el-menu-item>
+      <SubMenu :item="item"></SubMenu>
     </template>
   </el-menu>
 </template>
 <script setup lang='ts'>
-import { Promotion, DataAnalysis } from "@element-plus/icons-vue";
+import SubMenu from "@/components/SubMenu.vue";
+import MenuItem from "@/components/MenuItem.vue";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import userinfo from "@/store/index";

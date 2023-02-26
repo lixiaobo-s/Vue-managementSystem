@@ -76,9 +76,10 @@ function filtersInfo() {
       state: store.states.value[item.state],
     };
   });
-  taDate.value = arr;
+
   setTimeout(() => {
     loading.value = false;
+    taDate.value = arr;
   }, 500);
 }
 </script>
