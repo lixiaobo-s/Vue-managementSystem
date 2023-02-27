@@ -5,16 +5,17 @@ type info = {
     username: string,
     _id: string,
     deptId: [],
+    role: number,
+    state: number,
+    sex: string,
 }
 //定义返回菜单数据类型
 interface menu {
     menuId: string,
     name: string,
     url: string,
-    children: [{
-        path: string,
-        name: string,
-    }]
+    icon?: string,
+    children?: menu[]
 }
 export default defineStore('userInfo', {
     state: () => {
@@ -54,7 +55,19 @@ export default defineStore('userInfo', {
         }
     },
     getters: {
-
+        //过滤是否是管理，是则展示全部路由信息
+        FilterRouterInfo(): menu[] {
+            const { role } = this.userInfo;
+            //管理员返回全部信息
+            if (role == 0) {
+                return this.menus;
+            }
+            // 返回部分信息
+            let newMenu = this.menus.filter((item) => {
+                return item.url != "/system";
+            })
+            return newMenu;
+        }
 
     }
 })

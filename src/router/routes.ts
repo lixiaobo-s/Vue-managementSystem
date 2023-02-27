@@ -23,9 +23,10 @@ const routers: RouteRecordRaw[] = [
                 meta: {
                     title: '系统管理'
                 },
+                redirect: '/system/user',
                 children: [
                     {
-                        path: '/system/user/:currentPage?',
+                        path: 'user/:currentPage?',
                         name: 'user',
                         component: () => import('@/view/user.vue'),
                         meta: {
@@ -33,7 +34,63 @@ const routers: RouteRecordRaw[] = [
                         }
                     }
                 ]
-            }
+            },
+            //关于
+            {
+                path: '/about',
+                name: 'about',
+                meta: {
+                    title: '关于'
+                },
+                redirect: '/about/item1',
+                children: [
+                    {
+                        path: 'item1',
+                        name: 'item1',
+                        meta: {
+                            title: '声明'
+                        },
+                        redirect: '/about/item1/item11',
+                        children: [
+                            {
+                                path: 'item11',
+                                name: 'item11',
+                                meta: {
+                                    title: '声明-1'
+                                },
+                                redirect: '/about/item1/item11/item111',
+                                children: [
+                                    {
+                                        path: 'item111',
+                                        name: 'item111',
+                                        meta: {
+                                            title: '声明-1-1'
+                                        },
+                                        component: () => import("@/view/about2.vue"),
+                                    }
+                                ]
+                            },
+                            {
+                                path: 'item12',
+                                name: 'item12',
+                                meta: {
+                                    title: '声明-2'
+                                },
+                                component: import('@/view/about3.vue')
+                            }
+
+                        ]
+                    },
+                    {
+                        path: 'item2',
+                        name: 'item2',
+                        meta: {
+                            title: '声明2'
+                        },
+                        component: () => import("@/view/about3.vue"),
+                    }
+                ]
+            },
         ]
     },
 

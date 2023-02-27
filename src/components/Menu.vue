@@ -14,7 +14,7 @@
         srcset=""
       />
     </div>
-    <template v-for="item in store.menus" :key="item.menuId">
+    <template v-for="item in store.FilterRouterInfo" :key="item.menuId">
       <!-- 多级菜单的 -->
       <SubMenu :item="item"></SubMenu>
     </template>
@@ -22,7 +22,6 @@
 </template>
 <script setup lang='ts'>
 import SubMenu from "@/components/SubMenu.vue";
-import MenuItem from "@/components/MenuItem.vue";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import userinfo from "@/store/index";
