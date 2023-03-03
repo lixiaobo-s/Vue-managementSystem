@@ -80,14 +80,15 @@ service.interceptors.response.use((res) => {
     return Promise.reject(error)
 })
 let fn = throttle((msg) => {
+    removeToken();
+    router.push('/login')
     //错误提示
     ElMessage({
         showClose: true,
         message: msg,
         type: 'warning',
     })
-    removeToken();
-    router.push('/login')
+
 }, 1000, {
     "trailing": false,
 })

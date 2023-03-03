@@ -29,7 +29,9 @@ function isShowAll() {
             <MHeader :isShowAll="isShowAll" :show="show" />
           </el-header>
           <!-- 主要展示部分 -->
-          <el-main><router-view></router-view> </el-main>
+          <el-main>
+            <router-view></router-view>
+          </el-main>
         </el-container>
       </el-container>
     </div>

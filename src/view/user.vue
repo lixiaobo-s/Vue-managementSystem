@@ -82,14 +82,22 @@ const totals = ref(0);
 //展示编辑框
 const showDialog = ref(false);
 onMounted(() => {
-  if (route.params.currentPage != "") {
+  if (route.params && route.params.currentPage != "") {
     currentPage.value = +route.params.currentPage;
   }
   getUserInfo();
   getRole();
-  const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+  // const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
-  proxy!.$forceUpdate();
+  // proxy!.$forceUpdate();
+});
+//监听路由变化改变current
+watch(route, (n, o) => {
+  if (route.params.currentPage == "" || JSON.stringify(route.params) == "{}") {
+    currentPage.value = 1;
+    return;
+  }
+  currentPage.value = +route.params.currentPage;
 });
 //监听页数变化和每页展示的数据变化
 watch([currentPage, pageSize], () => {

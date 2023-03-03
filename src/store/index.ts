@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+import { RouteRecordRaw } from 'vue-router'
 import Api from '@/api'
+import { setToken } from "@/utils/setToken"
 //定义数据类型
 type info = {
     username: string,
@@ -9,14 +11,6 @@ type info = {
     state: number,
     sex: string,
 }
-//定义返回菜单数据类型
-interface menu {
-    menuId: string,
-    name: string,
-    url: string,
-    icon?: string,
-    children?: menu[]
-}
 export default defineStore('userInfo', {
     state: () => {
         return {
@@ -25,7 +19,7 @@ export default defineStore('userInfo', {
             states: [], //用户状态
             userListinfo: {},
             sex: [],//标题等信息
-            menus: <menu[]>[]  //存储菜单信息
+            menus: <RouteRecordRaw[]>[], //存储菜单信息
         }
     },
     persist: { // 持久化存储的方式
@@ -43,20 +37,26 @@ export default defineStore('userInfo', {
         ]
     },
     actions: {
-        setUserInfo(data: any) {
-            console.log(data);
-
-            this.userInfo = data;
-
+        async setUserInfo(data: any): Promise<boolean> {
+            let res = await Api.login(data);
+            if (res) {
+                const { token } = res.data;
+                setToken(token);
+                this.userInfo = res.data;
+                return true;
+            }
+            return false;
         },
         //获取菜单信息
         async getMenus() {
-            this.menus = await <menu[]>(await Api.getMenu()).data;
+            let res = await <RouteRecordRaw[]>(await Api.getMenu()).data;
+            this.menus = res;
+            // return res;
         }
     },
     getters: {
         //过滤是否是管理，是则展示全部路由信息
-        FilterRouterInfo(): menu[] {
+        FilterRouterInfo(): RouteRecordRaw[] {
             const { role } = this.userInfo;
             //管理员返回全部信息
             if (role == 0) {
@@ -64,10 +64,10 @@ export default defineStore('userInfo', {
             }
             // 返回部分信息
             let newMenu = this.menus.filter((item) => {
-                return item.url != "/system";
+                return !item.meta?.roles;
             })
             return newMenu;
-        }
 
+        }
     }
 })

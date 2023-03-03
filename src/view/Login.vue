@@ -36,11 +36,10 @@
 <script setup lang='ts'>
 import { UserFilled, Lock } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
-import api from "@/api/index";
 import type { FormInstance } from "element-plus";
 import { onMounted, reactive, ref } from "vue-demi";
 import userInfo from "@/store/index";
-import { setToken } from "@/utils/setToken";
+
 const userStore = userInfo();
 const ruleFormRef = ref<FormInstance>();
 const router = useRouter();
@@ -85,13 +84,10 @@ function submitForm(formEl: FormInstance | undefined) {
   if (!formEl) return;
   formEl.validate(async (valid) => {
     if (valid) {
-      const res = await api.login(form);
+      let res = await userStore.setUserInfo(form);
       if (res) {
-        //返回是正确的数据就存入
-        const { token } = res.data;
-        // 持久化存储token
-        setToken(token);
-        userStore.setUserInfo(res.data);
+        //请求菜单路由信息
+        await userStore.getMenus();
         router.push("/");
       }
     } else {

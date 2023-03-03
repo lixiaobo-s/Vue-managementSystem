@@ -53,6 +53,7 @@ import {
 import { removeToken } from "@/utils/setToken";
 import { useRouter, useRoute } from "vue-router";
 import userStore from "@/store/index";
+import { resetRouter } from "@/utils/addmenu";
 import { computed } from "vue";
 const stroe = userStore();
 const router = useRouter();
@@ -63,7 +64,8 @@ const props = defineProps(["show", "isShowAll"]);
 function outLine() {
   //清空pinia中数据
   removeToken();
-  router.push("/login");
+  resetRouter();
+  router.replace("/login");
 }
 
 const breadcrumb = computed(() => {

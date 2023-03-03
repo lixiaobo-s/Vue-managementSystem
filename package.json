@@ -12,6 +12,7 @@
     "axios": "^1.2.6",
     "echarts": "^5.4.1",
     "element-plus": "^2.2.28",
+    "glob": "^9.2.1",
     "lodash": "^4.17.21",
     "pinia": "^2.0.29",
     "pinia-plugin-persist": "^1.0.0",
@@ -20,6 +21,7 @@
     "vue-router": "4"
   },
   "devDependencies": {
+    "@rollup/plugin-dynamic-import-vars": "^2.0.3",
     "@types/node": "^18.11.18",
     "@vitejs/plugin-vue": "^4.0.0",
     "typescript": "^4.9.3",

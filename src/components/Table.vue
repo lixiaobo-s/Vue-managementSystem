@@ -68,19 +68,20 @@ watch(
 //过滤字段，将0 1 等数据转换成文字
 function filtersInfo() {
   loading.value = true;
-  const arr = props.tableData.map((item: any) => {
-    return {
-      ...item,
-      role: store.roles.value[item.role],
-      sex: store.sex.value[item.sex],
-      state: store.states.value[item.state],
-    };
-  });
-
-  setTimeout(() => {
-    loading.value = false;
-    taDate.value = arr;
-  }, 500);
+  if (props.tableData) {
+    const arr = props.tableData.map((item: any) => {
+      return {
+        ...item,
+        role: store.roles.value[item.role],
+        sex: store.sex.value[item.sex],
+        state: store.states.value[item.state],
+      };
+    });
+    setTimeout(() => {
+      loading.value = false;
+      taDate.value = arr;
+    }, 500);
+  }
 }
 </script>
 <style lang='scss' scoped>

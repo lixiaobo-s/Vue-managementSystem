@@ -15,7 +15,7 @@ const EnvConfig = {
     // 生产环境
     prod: {
         //正式接口
-        baseApi: 'https://www.fastmock.site/mock/22f34e05e31753b322f9c3acfed961ee/lixiaobo',
+        baseApi: 'http://127.0.0.1:3000',
         //测试接口
         mockApi: 'https://www.fastmock.site/mock/22f34e05e31753b322f9c3acfed961ee/lixiaobo',
     }
